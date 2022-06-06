@@ -131,9 +131,6 @@ public static class ParserHelper
 
     private static string Recursive(string expression)
     {
-        if (!expression.Contains('('))
-            return expression;
-
         while (expression.Contains('('))
         {
             var first = -1;

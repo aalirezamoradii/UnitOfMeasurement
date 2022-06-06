@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "ZinoTest": {
+    "WebApi": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,

@@ -134,32 +134,32 @@ public static class ParserHelper
         if (!expression.Contains('('))
             return expression;
 
-        var first = -1;
-        var last = -1;
-        for (var i = 0; i < expression.Length; i++)
+        while (expression.Contains('('))
         {
-            if (IsLeftBracket(expression[i]))
-                first = i;
+            var first = -1;
+            var last = -1;
+            for (var i = 0; i < expression.Length; i++)
+            {
+                if (IsLeftBracket(expression[i]))
+                    first = i;
 
-            if (!IsRightBracket(expression[i])) continue;
+                if (!IsRightBracket(expression[i])) continue;
 
-            last = i;
-            break;
+                last = i;
+                break;
+            }
+
+            last = (first == 0 ? last : last - first) + 1;
+            var bracket = expression.Substring(first, last);
+
+            var trim = bracket.Contains('(') || bracket.Contains(')')
+                ? bracket
+                    .Replace("(", "")
+                    .Replace(")", "")
+                : bracket;
+            var value = Value(trim);
+            expression = expression.Replace($"{bracket}", $"{value}");
         }
-
-        last = (first == 0 ? last : last - first) + 1;
-        var bracket = expression.Substring(first, last);
-
-        var trim = bracket.Contains('(') || bracket.Contains(')')
-            ? bracket
-                .Replace("(", "")
-                .Replace(")", "")
-            : bracket;
-        var value = Value(trim);
-        expression = expression.Replace($"{bracket}", $"{value}");
-
-        if (expression.Contains('('))
-            expression = Recursive(expression);
 
         return expression;
     }
